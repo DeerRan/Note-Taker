@@ -10,23 +10,23 @@ const app = express()
 const PORT = process.env.PORT || 3000;
 
 //Middleware
-app.use(express.static('public'));
+app.use(express.static('Develop/public'));
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 //Default page is index
 app.get('/', (req,res)=> {
-    res.sendFile(path.resolve(__dirname, 'public/index.html'))
+    res.sendFile(path.resolve(__dirname, 'Develop/public/index.html'))
 })
 
 //If pathed to /notes, bring up notes html
 app.get('/notes', (req,res)=> {
-    res.sendFile(path.resolve(__dirname, 'public/notes.html'))
+    res.sendFile(path.resolve(__dirname, 'Develop/public/notes.html'))
 })
 
 //Gets access json file
 app.get('/api/notes', (req,res)=>{
-    fs.readFile(__dirname + '/db/db.json', function (err, data) {
+    fs.readFile('./Develop/db/db.json', function (err, data) {
         var json = JSON.parse(data);
         res.json(json)
     })
@@ -34,7 +34,7 @@ app.get('/api/notes', (req,res)=>{
 
 app.post('/api/notes', (req, res) => {
 
-    fs.readFile(__dirname + '/db/db.json', function (err, data) {
+    fs.readFile('./Develop/db/db.json', function (err, data) {
         //Gives array
         var json = JSON.parse(data); 
 
@@ -45,19 +45,19 @@ app.post('/api/notes', (req, res) => {
         json.push(req.body);
 
         //Rewrites db.json file with updated array
-        fs.writeFile(__dirname + '/db/db.json', JSON.stringify(json), function(err){
+        fs.writeFile('./Develop/db/db.json', JSON.stringify(json), function(err){
             if (err) throw err;
         })
     });
 
     //Takes the user back to basic path with updated list
-    res.sendFile(path.resolve(__dirname, 'public/notes.html'));
+    res.sendFile(path.resolve(__dirname, 'Develop/public/notes.html'));
 
 })
 
 app.delete('/api/notes/:id', (req, res) => {
 
-    fs.readFile(__dirname + '/db/db.json', function (err, data) {
+    fs.readFile('./Develop/db/db.json', function (err, data) {
         //Gives us our array from db.json
         var json = JSON.parse(data); 
 
@@ -69,27 +69,27 @@ app.delete('/api/notes/:id', (req, res) => {
 
         //If it can't find a matching id, returns us to notes path
         if (!note) {
-            res.sendFile(path.resolve(__dirname, 'public/notes.html'))
+            res.sendFile(path.resolve(__dirname, 'Develop/public/notes.html'))
         };
 
         //New array after filtering out the note with matching ID
         var newJson = json.filter((note)=> note.id !== id);
 
         //Rewriting the array w/o note
-        fs.writeFile(__dirname + '/db/db.json', JSON.stringify(newJson), function(err){
+        fs.writeFile('./Develop/db/db.json', JSON.stringify(newJson), function(err){
             if (err) throw err;
         });
     });
 
     //Takes the user back to basic path with updated list
-    res.sendFile(path.resolve(__dirname, 'public/notes.html'));
+    res.sendFile(path.resolve(__dirname, 'Develop/public/notes.html'));
 
 })
 
 
 //If at an unrecognized path, respond with err
 app.get('*', (req,res)=> {
-    res.sendFile(path.resolve(__dirname, 'public/index.html'))
+    res.sendFile(path.resolve(__dirname, 'Develop/public/index.html'))
 })
 
 //Listening?
