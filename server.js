@@ -16,12 +16,12 @@ app.use(express.json())
 
 //Default page is index
 app.get('/', (req,res)=> {
-    res.sendFile(path.resolve(__dirname, './public/index.html'))
+    res.sendFile(path.resolve(__dirname, './Develop/public/index.html'))
 })
 
 //If pathed to /notes, bring up notes html
 app.get('/notes', (req,res)=> {
-    res.sendFile(path.resolve(__dirname, './public/notes.html'))
+    res.sendFile(path.resolve(__dirname, './Develop/public/notes.html'))
 })
 
 //Gets access json file
@@ -51,7 +51,7 @@ app.post('/api/notes', (req, res) => {
     });
 
     //Takes the user back to basic path with updated list
-    res.sendFile(path.resolve(__dirname, './public/notes.html'));
+    res.sendFile(path.resolve(__dirname, './Develop/public/notes.html'));
 
 })
 
@@ -69,7 +69,7 @@ app.delete('/api/notes/:id', (req, res) => {
 
         //If it can't find a matching id, returns us to notes path
         if (!note) {
-            res.sendFile(path.resolve(__dirname, './public/notes.html'))
+            res.sendFile(path.resolve(__dirname, './Develop/public/notes.html'))
         };
 
         //New array after filtering out the note with matching ID
@@ -82,14 +82,14 @@ app.delete('/api/notes/:id', (req, res) => {
     });
 
     //Takes the user back to basic path with updated list
-    res.sendFile(path.resolve(__dirname, './public/notes.html'));
+    res.sendFile(path.resolve(__dirname, './Develop/public/notes.html'));
 
 })
 
 
 //If at an unrecognized path, respond with err
 app.get('*', (req,res)=> {
-    res.sendFile(path.resolve(__dirname, './public/index.html'))
+    res.sendFile(path.resolve(__dirname, './Develop/public/index.html'))
 })
 
 //Listening?
